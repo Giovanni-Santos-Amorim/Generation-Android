@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Telas2</string>
+
+    <string name="bemvindo">Bem vindo ao aplicativo</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="log">Log in</string>
+    <string name="sign">Sign in</string>
+    <string name="nome">Nome</string>
+    <string name="descri">Descrição</string>
+    <string name="responsavel">Responsavel</string>
+    <string name="data">Data</string>
+    <string name="andamento">Em andamento</string>
+    <string name="salvar">Salvar</string>
+</resources>
