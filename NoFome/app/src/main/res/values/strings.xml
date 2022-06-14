@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">NoFome</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //fragment_form
+    <string name="product_registration">Cadastro de cestas</string>
+    <string name="hint_name">Nome da cesta</string>
+    <string name="hint_description">Descrição da cesta</string>
+    <string name="hint_value">Valor da cesta</string>
+    <string name="save_button">Salvar</string>
+
+    //card_layout
+    <string name="button_delete">Deletar</string>
+
+    <string name="add_button">Adicionar cestas</string>
+
+</resources>
