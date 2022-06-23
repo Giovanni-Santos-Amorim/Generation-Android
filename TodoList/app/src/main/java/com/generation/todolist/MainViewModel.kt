@@ -18,6 +18,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: Repository): ViewModel() {
 
+    var tarefaSelecionada: Tarefa? = null
+
     private var _myCategoriaResponse = MutableLiveData<Response<List<Categoria>>>()
 
     val myCategoriaResponse: LiveData<Response<List<Categoria>>> =
@@ -45,8 +47,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun addTarefa(tarefa: Tarefa) {
-        viewModelScope.launch {
+    fun addTarefa(tarefa: Tarefa)
+    {
+        viewModelScope.launch{
             try {
                 repository.addTarefa(tarefa)
             } catch (e: Exception) {
@@ -55,12 +58,25 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun listTarefa() {
+    fun listTarefa()
+    {
         viewModelScope.launch {
             try {
                 val response = repository.listTarefa()
                 _MytarefaResponse.value = response
             } catch (e: Exception) {
+                Log.d("Erro", e.message.toString())
+            }
+        }
+    }
+
+    fun updateTarefa(tarefa: Tarefa)
+    {
+        viewModelScope.launch {
+            try {
+                repository.updateTarefa(tarefa)
+                listTarefa()
+            }catch (e: Exception){
                 Log.d("Erro", e.message.toString())
             }
         }

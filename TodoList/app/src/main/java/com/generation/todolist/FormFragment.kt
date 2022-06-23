@@ -22,6 +22,7 @@ import com.generation.todolist.model.Categoria
 import com.generation.todolist.model.Tarefa
 import java.time.LocalDate
 
+
 class FormFragment : Fragment(), TimerPickerListener {
 
     private lateinit var binding: FragmentFormBinding
@@ -30,13 +31,16 @@ class FormFragment : Fragment(), TimerPickerListener {
 
     private var categoriaSelecionada = 0L
 
+    private var tarefaSelecionada: Tarefa? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentFormBinding
-            .inflate(layoutInflater, container, false)
+        binding = FragmentFormBinding.inflate(layoutInflater, container, false)
+
+        carregarDados()
 
         mainViewModel.listCategoria()
 
@@ -112,17 +116,50 @@ class FormFragment : Fragment(), TimerPickerListener {
 
         if(validarCampos(nome, desc, resp))
         {
-            val tarefa = Tarefa(0, nome, desc, resp, data, status, categoria)
+            val salvar: String
 
-            mainViewModel.addTarefa(tarefa)
+            if(tarefaSelecionada != null)
 
-            Toast.makeText(context, "tarefa criada com sucesso", Toast.LENGTH_SHORT).show()
+            {
+                salvar = "Tarefa atualizada!"
+
+                val tarefa = Tarefa(tarefaSelecionada?.id!!, nome, desc, resp, data, status, categoria)
+
+                mainViewModel.updateTarefa(tarefa)
+            }
+            else
+            {
+                salvar = "Tarefa criada!"
+
+                val tarefa = Tarefa(0, nome, desc, resp, data, status, categoria)
+
+                mainViewModel.addTarefa(tarefa)
+
+            }
+
+
+            Toast.makeText(context, salvar, Toast.LENGTH_SHORT).show()
 
             findNavController().navigate(R.id.action_formFragment_to_listFragment)
         }
         else
         {
             Toast.makeText(context, "Verifique os campos!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun carregarDados()
+    {
+        tarefaSelecionada = mainViewModel.tarefaSelecionada
+
+        if(tarefaSelecionada != null)
+        {
+            binding.editNome.setText(tarefaSelecionada?.nome)
+            binding.editDescricao.setText(tarefaSelecionada?.descricao)
+            binding.editResponsavel.setText(tarefaSelecionada?.responsavel)
+            binding.editData.setText(tarefaSelecionada?.data)
+            binding.switchAtivoCard.isChecked = tarefaSelecionada?.status!!
+
         }
     }
 
