@@ -1,5 +1,7 @@
 package com.generation.todolist.adapter
 
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +11,8 @@ import com.generation.todolist.model.Tarefa
 
 class TarefaAdapter(
     val taskClickListener: TaskClickListener,
-    val mainViewModel: MainViewModel
+    val mainViewModel: MainViewModel,
+    val context: Context
 ): RecyclerView.Adapter<TarefaAdapter.TarefaViewHolder>() {
 
     var listTarefa = emptyList<Tarefa>()
@@ -43,6 +46,10 @@ class TarefaAdapter(
 
             mainViewModel.updateTarefa(tarefa)
         }
+
+        holder.binding.buttonDeletar.setOnClickListener{
+            showAlertDialog(tarefa.id)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -54,4 +61,16 @@ class TarefaAdapter(
         notifyDataSetChanged()
     }
 
+    private fun showAlertDialog(id: Long)
+    {
+        AlertDialog.Builder(context)
+            .setTitle("Excluir tarefa")
+            .setMessage("Deseja excluir a tarefa?")
+            .setPositiveButton("sim"){
+                _,_ -> mainViewModel.deleteTarefa(id)
+            }
+            .setNegativeButton("não"){
+                _,_ ->
+            }.show()
+    }
 }
